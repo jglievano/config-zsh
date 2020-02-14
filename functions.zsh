@@ -41,3 +41,32 @@ ensure() {
 ignore() {
 	"$@"
 }
+
+function es() {
+	if [[ $(uname) == "Linux" ]]; then
+		EMACS="/usr/bin/emacs"
+	elif [[ $(uname) == "Darwin" ]]; then
+		EMACS="$HOME/.homebrew/bin/emacs"
+	else
+		printf "OS not recognized\n"
+		exit 1
+	fi
+
+	if [[ "$1" == "stop" ]]; then
+		emacsclient -e '(kill-emacs)'
+
+	elif [[ "$1" == "start" ]]; then
+		emacs --daemon
+
+	else
+		printf "usage: es <start|stop>\n"
+	fi
+}
+
+function ew() {
+	emacsclient -nc $1
+}
+
+function et() {
+	emacsclient -nw $1
+}

@@ -1,4 +1,4 @@
-add_path() {
+function add_path() {
 	if [[ "${PATH/$1}" = "${PATH}" ]]; then
 		if [[ -d $1 ]]; then
 			export PATH="$1:${PATH}"
@@ -6,40 +6,25 @@ add_path() {
 	fi
 }
 
-remove_path() {
+function remove_path() {
 	export PATH=$(echo -n "${PATH}" | \
 	       awk -v RS=: -v ORS=: "$0 != \"$1\"" | \
 	       sed "s/:$//")
 }
 
-say() {
-	printf 'say: %s\n' "$1"
-}
-
-err() {
-	say "$1" >&2
-	exit 1
-}
-
-need_cmd() {
+function need_cmd() {
 	if ! check_cmd "$1"; then
 		err "need '$1' (command not found)"
 	fi
 }
 
-check_cmd() {
+function check_cmd() {
 	command -v "$1" > /dev/null 2>&1
 }
 
 # Run command that should never fail.
-ensure() {
+function ensure() {
 	if ! "$@"; then err "command failed: $*"; fi
-}
-
-# Used to indicate that the command's results are being
-# intentionally ignored.
-ignore() {
-	"$@"
 }
 
 function es() {
@@ -69,4 +54,13 @@ function ew() {
 
 function et() {
 	emacsclient -nw $1
+}
+
+function tm() {
+	SESSION=$(hostname -s)
+	if [ -n "$1" ]; then
+		SESSION=$1
+	fi
+	printf "created session \"${SESSION}\"\n"
+	tmux -S /tmp/tmux_shared new -A -s ${SESSION} -n ws
 }

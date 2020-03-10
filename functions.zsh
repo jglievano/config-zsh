@@ -1,66 +1,66 @@
 function add_path() {
-	if [[ "${PATH/$1}" = "${PATH}" ]]; then
-		if [[ -d $1 ]]; then
-			export PATH="$1:${PATH}"
-		fi
-	fi
+  if [[ "${PATH/$1}" = "${PATH}" ]]; then
+    if [[ -d $1 ]]; then
+      export PATH="$1:${PATH}"
+    fi
+  fi
 }
 
 function remove_path() {
-	export PATH=$(echo -n "${PATH}" | \
-	       awk -v RS=: -v ORS=: "$0 != \"$1\"" | \
-	       sed "s/:$//")
+  export PATH=$(echo -n "${PATH}" | \
+         awk -v RS=: -v ORS=: "$0 != \"$1\"" | \
+         sed "s/:$//")
 }
 
 function need_cmd() {
-	if ! check_cmd "$1"; then
-		err "need '$1' (command not found)"
-	fi
+  if ! check_cmd "$1"; then
+    err "need '$1' (command not found)"
+  fi
 }
 
 function check_cmd() {
-	command -v "$1" > /dev/null 2>&1
+  command -v "$1" > /dev/null 2>&1
 }
 
 # Run command that should never fail.
 function ensure() {
-	if ! "$@"; then err "command failed: $*"; fi
+  if ! "$@"; then err "command failed: $*"; fi
 }
 
 function es() {
-	if [[ $(uname) == "Linux" ]]; then
-		EMACS="/usr/bin/emacs"
-	elif [[ $(uname) == "Darwin" ]]; then
-		EMACS="$HOME/.homebrew/bin/emacs"
-	else
-		printf "OS not recognized\n"
-		exit 1
-	fi
+  if [[ $(uname) == "Linux" ]]; then
+    EMACS="/usr/bin/emacs"
+  elif [[ $(uname) == "Darwin" ]]; then
+    EMACS="$HOME/.homebrew/bin/emacs"
+  else
+    printf "OS not recognized\n"
+    exit 1
+  fi
 
-	if [[ "$1" == "stop" ]]; then
-		emacsclient -e '(kill-emacs)'
+  if [[ "$1" == "stop" ]]; then
+    emacsclient -e '(kill-emacs)'
 
-	elif [[ "$1" == "start" ]]; then
-		emacs --daemon
+  elif [[ "$1" == "start" ]]; then
+    emacs --daemon
 
-	else
-		printf "usage: es <start|stop>\n"
-	fi
+  else
+    printf "usage: es <start|stop>\n"
+  fi
 }
 
 function ew() {
-	emacsclient -nc $1
+  emacsclient -nc $1
 }
 
 function et() {
-	emacsclient -nw $1
+  emacsclient -nw $1
 }
 
 function tm() {
-	SESSION=$(hostname -s)
-	if [ -n "$1" ]; then
-		SESSION=$1
-	fi
-	printf "created session \"${SESSION}\"\n"
-	tmux -S /tmp/tmux_shared new -A -s ${SESSION} -n ws
+  SESSION=$(hostname -s)
+  if [ -n "$1" ]; then
+    SESSION=$1
+  fi
+  printf "created session \"${SESSION}\"\n"
+  tmux -S /tmp/tmux_shared new -A -s ${SESSION} -n ws
 }

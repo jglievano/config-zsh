@@ -7,6 +7,7 @@ add_path ${ANDROID_HOME:?}/tools
 add_path ${ANDROID_HOME:?}/tools/bin
 add_path ${GOPATH:?}/bin
 add_path ${HOME}/bin
+add_path ${HOME}/src/flutter/bin
 add_path ${HOME}/.cargo/bin
 add_path ${HOME}/.homebrew/bin
 add_path ${HOME}/.local/bin

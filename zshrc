@@ -5,6 +5,7 @@ if [ -d ~/.zsh ]; then
   source ~/.zsh/zplug.zsh
 
   source ~/.zsh/functions.zsh
+  source ~/.zsh/versions.zsh
   source ~/.zsh/env.zsh
   source ~/.zsh/paths.zsh
   source ~/.zsh/packages.zsh

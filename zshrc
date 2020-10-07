@@ -10,7 +10,12 @@ if [ -d ~/.zsh ]; then
   source ~/.zsh/paths.zsh
   source ~/.zsh/packages.zsh
   source ~/.zsh/aliases.zsh
-  source ~/.zsh/prompt.zsh
+  if ! command -v starship &>/dev/null; then
+    eval "$(starship init zsh)"
+  else
+    source ~/.zsh/prompt.zsh
+  fi
+
 
   if [ -d ~/.zsh/post ]; then
     for POST_FILE in ~/.zsh/post/*.zsh; do

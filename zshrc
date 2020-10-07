@@ -10,7 +10,7 @@ if [ -d ~/.zsh ]; then
   source ~/.zsh/paths.zsh
   source ~/.zsh/packages.zsh
   source ~/.zsh/aliases.zsh
-  if ! command -v starship &>/dev/null; then
+  if command -v starship &>/dev/null; then
     eval "$(starship init zsh)"
   else
     source ~/.zsh/prompt.zsh
